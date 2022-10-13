@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://b2b.eurotel.cz" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="MessagingGateway" targetNamespace="http://b2b.eurotel.cz">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://b2b.eurotel.cz" targetNamespace="http://b2b.eurotel.cz" version="1.0">
+
+  <xs:element name="activateBA" type="tns:activateBA"/>
+
+  <xs:element name="activateBAResponse" type="tns:activateBAResponse"/>
+
+  <xs:element name="confirm" type="tns:confirm"/>
+
+  <xs:element name="confirmResponse" type="tns:confirmResponse"/>
+
+  <xs:element name="deactivateBA" type="tns:deactivateBA"/>
+
+  <xs:element name="deactivateBAResponse" type="tns:deactivateBAResponse"/>
+
+  <xs:element name="ping" type="tns:ping"/>
+
+  <xs:element name="pingResponse" type="tns:pingResponse"/>
+
+  <xs:element name="receive" type="tns:receive"/>
+
+  <xs:element name="receiveResponse" type="tns:receiveResponse"/>
+
+  <xs:element name="receiveResponseWithTime" type="tns:receiveResponseWithTime"/>
+
+  <xs:element name="receiveWithTime" type="tns:receiveWithTime"/>
+
+  <xs:element name="send" type="tns:send"/>
+
+  <xs:element name="sendResponse" type="tns:sendResponse"/>
+
+  <xs:element name="sendSms" type="tns:sendSms"/>
+
+  <xs:element name="sendSmsResponse" type="tns:sendSmsResponse"/>
+
+  <xs:complexType name="sendSms">
+    <xs:sequence>
+      <xs:element name="baID" nillable="true" type="xs:string"/>
+      <xs:element name="text" nillable="true" type="xs:string"/>
+      <xs:element name="toNumber" nillable="true" type="xs:string"/>
+      <xs:element name="fromNumber" nillable="true" type="xs:string"/>
+      <xs:element name="validityPeriod" type="xs:long"/>
+      <xs:element name="priority" nillable="true" type="xs:string"/>
+      <xs:element name="intruder" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sendSmsResponse">
+    <xs:sequence>
+      <xs:element name="result" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Response">
+    <xs:complexContent>
+      <xs:extension base="tns:Message">
+        <xs:sequence>
+          <xs:element name="code" nillable="true" type="xs:string"/>
+          <xs:element name="description" nillable="true" type="xs:string"/>
+          <xs:element name="refBaID" nillable="true" type="xs:string"/>
+          <xs:element name="refMsgID" nillable="true" type="xs:string"/>
+          <xs:element name="timestamp" nillable="true" type="xs:dateTime"/>
+          <xs:element name="type" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Message">
+    <xs:sequence>
+      <xs:element name="baID" nillable="true" type="xs:string"/>
+      <xs:element name="msgID" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Request">
+    <xs:complexContent>
+      <xs:extension base="tns:Message">
+        <xs:sequence>
+          <xs:element name="priority" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Mms">
+    <xs:complexContent>
+      <xs:extension base="tns:Request">
+        <xs:sequence>
+          <xs:element name="fromNumber" nillable="true" type="xs:string"/>
+          <xs:element name="messageClass" nillable="true" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="parts" nillable="true" type="tns:MmsPart"/>
+          <xs:element name="premiumInfo" nillable="true" type="tns:PremiumInfo"/>
+          <xs:element name="presentation" nillable="true" type="xs:string"/>
+          <xs:element name="reportLevel" nillable="true" type="xs:string"/>
+          <xs:element name="subject" nillable="true" type="xs:string"/>
+          <xs:element name="toNumber" nillable="true" type="xs:string"/>
+          <xs:element name="validityPeriod" type="xs:long"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="MmsPart">
+    <xs:sequence>
+      <xs:element name="content" nillable="true" type="xs:base64Binary"/>
+      <xs:element name="contentEncoding" nillable="true" type="xs:string"/>
+      <xs:element name="contentType" nillable="true" type="xs:string"/>
+      <xs:element name="id" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PremiumInfo">
+    <xs:sequence>
+      <xs:element name="billingCode" nillable="true" type="xs:string"/>
+      <xs:element name="orderID" nillable="true" type="xs:string"/>
+      <xs:element name="orderingChannel" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Sms">
+    <xs:complexContent>
+      <xs:extension base="tns:Request">
+        <xs:sequence>
+          <xs:element name="dataCodingScheme" type="xs:int"/>
+          <xs:element name="fromNumber" nillable="true" type="xs:string"/>
+          <xs:element name="header" nillable="true" type="xs:base64Binary"/>
+          <xs:element name="premiumInfo" nillable="true" type="tns:PremiumInfo"/>
+          <xs:element name="protocolIdentifier" nillable="true" type="xs:string"/>
+          <xs:element name="reportLevel" nillable="true" type="xs:string"/>
+          <xs:element name="toNumber" nillable="true" type="xs:string"/>
+          <xs:element name="validityPeriod" type="xs:long"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TextSms">
+    <xs:complexContent>
+      <xs:extension base="tns:Sms">
+        <xs:sequence>
+          <xs:element name="intruder" type="xs:boolean"/>
+          <xs:element name="multiPart" type="xs:boolean"/>
+          <xs:element name="text" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="BinarySms">
+    <xs:complexContent>
+      <xs:extension base="tns:Sms">
+        <xs:sequence>
+          <xs:element name="data" nillable="true" type="xs:base64Binary"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SmsWithTime">
+    <xs:complexContent>
+      <xs:extension base="tns:Sms">
+        <xs:sequence>
+          <xs:element name="startTime" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TextSmsWithTime">
+    <xs:complexContent>
+      <xs:extension base="tns:SmsWithTime">
+        <xs:sequence>
+          <xs:element name="intruder" type="xs:boolean"/>
+          <xs:element name="multiPart" type="xs:boolean"/>
+          <xs:element name="text" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="BinarySmsWithTime">
+    <xs:complexContent>
+      <xs:extension base="tns:SmsWithTime">
+        <xs:sequence>
+          <xs:element name="data" nillable="true" type="xs:base64Binary"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ping">
+    <xs:sequence>
+      <xs:element name="baID" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MessageContainer">
+    <xs:sequence>
+      <xs:element name="binarySms" nillable="true" type="tns:BinarySms"/>
+      <xs:element name="mms" nillable="true" type="tns:Mms"/>
+      <xs:element name="response" nillable="true" type="tns:Response"/>
+      <xs:element name="selector" nillable="true" type="xs:string"/>
+      <xs:element name="textSms" nillable="true" type="tns:TextSms"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="send">
+    <xs:sequence>
+      <xs:any namespace="##other" processContents="lax"/>
+      <xs:element minOccurs="0" name="mc" type="tns:MessageContainer"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sendResponse">
+    <xs:sequence>
+      <xs:element name="result" nillable="true" type="tns:Response"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deactivateBA">
+    <xs:sequence>
+      <xs:element name="baID" nillable="true" type="xs:string"/>
+      <xs:element name="deleteOutstandingMessages" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="receiveResponseWithTime">
+    <xs:sequence>
+      <xs:element name="result" nillable="true" type="tns:MessageContainerWithTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MessageContainerWithTime">
+    <xs:sequence>
+      <xs:element name="binarySms" nillable="true" type="tns:BinarySmsWithTime"/>
+      <xs:element name="mms" nillable="true" type="tns:Mms"/>
+      <xs:element name="response" nillable="true" type="tns:Response"/>
+      <xs:element name="selector" nillable="true" type="xs:string"/>
+      <xs:element name="textSms" nillable="true" type="tns:TextSmsWithTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="activateBAResponse">
+    <xs:sequence>
+      <xs:element name="result" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="receive">
+    <xs:sequence>
+      <xs:element name="baID" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="activateBA">
+    <xs:sequence>
+      <xs:element name="baID" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deactivateBAResponse">
+    <xs:sequence>
+      <xs:element name="result" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="confirmResponse">
+    <xs:sequence>
+      <xs:element name="result" nillable="true" type="tns:Response"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="pingResponse">
+    <xs:sequence>
+      <xs:element name="result" nillable="true" type="tns:Response"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="receiveResponse">
+    <xs:sequence>
+      <xs:element name="result" nillable="true" type="tns:MessageContainer"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="confirm">
+    <xs:sequence>
+      <xs:element name="baID" nillable="true" type="xs:string"/>
+      <xs:element name="refBaID" nillable="true" type="xs:string"/>
+      <xs:element name="refMsgID" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="receiveWithTime">
+    <xs:sequence>
+      <xs:element name="baID" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sendSms">
+    <wsdl:part element="tns:sendSms" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendSmsResponse">
+    <wsdl:part element="tns:sendSmsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SimpleSmsGw">
+    <wsdl:operation name="sendSms">
+      <wsdl:input message="tns:sendSms" name="sendSms">
+    </wsdl:input>
+      <wsdl:output message="tns:sendSmsResponse" name="sendSmsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MessagingGatewaySoapBinding" type="tns:SimpleSmsGw">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendSms">
+      <soap12:operation soapAction="http://b2b.eurotel.cz/SimpleSmsGw/sendSms" style="document"/>
+      <wsdl:input name="sendSms">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendSmsResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MessagingGateway">
+    <wsdl:port binding="tns:MessagingGatewaySoapBinding" name="SimpleSmsGwPort">
+      <soap12:address location="https://smsconnector.cz.o2.com/smsconnector/services/SimpleSmsGwPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
