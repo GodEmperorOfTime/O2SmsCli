@@ -5,7 +5,6 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 
 namespace O2SmsCli.O2;
 
@@ -30,7 +29,7 @@ static class CommunicationObjectExtensions
   /// <param name="logger">Logger, ktery se pouzije pro zapis vyjimky, ktera nastala pri abortovani</param>
   /// <returns></returns>
   public static async Task CloseOrAbortServiceChannelAsync(
-    this ICommunicationObject client, ILogger? logger = null)
+    this ICommunicationObject client)
   {
     if (client is null)    
       throw new ArgumentNullException(nameof(client));
@@ -55,12 +54,12 @@ static class CommunicationObjectExtensions
       // If State was Faulted or any exception occurred while doing the Close(), then do an Abort()
       if (!isClosed)
       {
-        AbortServiceChannel(client, logger);
+        AbortServiceChannel(client);
       }
     }
   }
 
-  private static void AbortServiceChannel(ICommunicationObject client, ILogger? logger)
+  private static void AbortServiceChannel(ICommunicationObject client)
   {
     try
     {
@@ -69,7 +68,7 @@ static class CommunicationObjectExtensions
     }
     catch (Exception ex)
     {
-      logger?.LogError(ex, "Nastala pri abortovani clienta pote, co nepodarilo zavrit clienta");
+      Debug.Fail(ex.Message);
       // An unexpected exception that we don't know how to handle.
       // If we are in this situation:
       // - we should NOT retry the Abort() because it has already failed and there is nothing to suggest it could be successful next time

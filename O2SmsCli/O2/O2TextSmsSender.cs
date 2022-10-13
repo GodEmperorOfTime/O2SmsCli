@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
-using Microsoft.Extensions.Logging;
 using O2SmsCli.Api;
 using O2SmsCli.O2.PPGwPort;
 
@@ -15,12 +14,11 @@ class O2TextSmsSender : ITextSmsSender
 {
 
   private readonly O2ConnectorConfig _config;
-  private readonly ILogger<O2TextSmsSender> _logger;
 
-  public O2TextSmsSender(O2ConnectorConfig config, ILogger<O2TextSmsSender> logger)
+
+  public O2TextSmsSender(O2ConnectorConfig config)
   {
     this._config = config ?? throw new ArgumentNullException(nameof(config));
-    this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
   }
 
   public async Task<SenderResponse> SendSafeAsync(Api.TextSms textSms, CancellationToken cancellationToken)
@@ -65,13 +63,12 @@ class O2TextSmsSender : ITextSmsSender
       // - be executed if any exception was thrown above in the 'try' (including ThreadAbortException); and
       // - ensure that CloseOrAbortServiceChannel() itself will not be interrupted by a ThreadAbortException
       //   (since it is executing from within a 'finally' block)
-      await client.CloseOrAbortServiceChannelAsync(_logger);
+      await client.CloseOrAbortServiceChannelAsync();
     }
   }
 
   private PPGwClient CreateClient()
   {
-    LogConfig();
     var binding = new BasicHttpsBinding();
     binding.Security.Mode = BasicHttpsSecurityMode.Transport;
     binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Certificate;
@@ -85,16 +82,5 @@ class O2TextSmsSender : ITextSmsSender
     return client;
   }
 
-  private void LogConfig()
-  {
-    _logger.LogInformation(Event.ClientConfig,
-      "Nastaveni O2 SMS connectoru. " +
-      "BAID: {O2sms_BAID}, " +
-      "EndpointUri: {O2sms_EndpointUri}, " +
-      "ClientCertificate_Thumbprint: {O2sms_ClientCertificate_Thumbprint}, " +
-      "ClientCertificate_StoreLocation: {O2sms_ClientCertificate_StoreLocation}, " +
-      "ClientCertificate_StoreName: {O2sms_ClientCertificate_StoreName}",
-      _config.BaId, _config.EndpointUri, _config.ClientCertificate.Thumbprint, 
-      _config.ClientCertificate.StoreLocation.ToString(), _config.ClientCertificate.StoreName.ToString());
-  }
+
 }
