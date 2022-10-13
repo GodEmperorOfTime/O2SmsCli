@@ -7,7 +7,7 @@ Je to vytahnuty z vetsiho projektu a napraseny v jednom projektu. Potrebuji to k
 ## O2ConnectorConfig
 
 
-`EndpointUri`: jedna se url endpointu, se ktery jsou odesylani zpravy. Je uvedeno v dokumentaci. Melo byt `https://smsconnector.cz.o2.com/smsconnector/services/PPGwPort`.
+`EndpointUri`: jedna se url endpointu, se ktery jsou odesilany zpravy. Je uvedeno v dokumentaci. Melo byt `https://smsconnector.cz.o2.com/smsconnector/services/PPGwPort`.
 
 `BaId` znamena Business application ID. Jedna se identifikator odesilatele (prideluje O2).
 
