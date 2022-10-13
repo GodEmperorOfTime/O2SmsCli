@@ -1,5 +1,9 @@
 ﻿# O2SmsCli
 
+Utilitka pro testovani O2 connectoru.
+
+Je to vytahnuty z vetsiho projektu a napraseny v jednom projektu. Potrebuji to kvulit hledani problemu a nechtel jsem prilis slozity solution.
+
 ## O2ConnectorConfig
 
 

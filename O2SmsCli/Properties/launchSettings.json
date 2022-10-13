@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Vse podle appsettings.json": {
+      "commandName": "Project"
+    },
+    "StoreLocation:CurentUser": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "O2ConnectorConfig:ClientCertificate:StoreLocation": "CurrentUser"
+      }
+    }
+  }
+}
