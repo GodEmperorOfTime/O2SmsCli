@@ -14,11 +14,11 @@ static class TextSanitizer
   /// <summary>
   /// Znak, ktery se pouzije, pokud je v textu neznamy non-ASCII znak.
   /// </summary>
-  public const char NONE_ASCII_PLACEHOLDER = '_';
+  public const char NON_ASCII_PLACEHOLDER = '_';
 
   /// <summary>
   /// Znaky s diakritikou nahradi jeji verzi bez diakritiky. Pokud obsahuje enznamy none-ascii znak, 
-  /// vrati na jeho pozici <see cref="NONE_ASCII_PLACEHOLDER"/>.
+  /// vrati na jeho pozici <see cref="NON_ASCII_PLACEHOLDER"/>.
   /// </summary>
   /// <param name="s">string, ktery je treba osetreit. Nesmi byt null.</param>
   public static string SanitizeText(string s)
@@ -82,7 +82,7 @@ static class TextSanitizer
 
   static char GetPlaceholderForNonAsciiChar(char c)
   {
-    return c < 128 ? c : NONE_ASCII_PLACEHOLDER; // https://stackoverflow.com/a/18596294
+    return c < 128 ? c : NON_ASCII_PLACEHOLDER; // https://stackoverflow.com/a/18596294
   }
 
 }
