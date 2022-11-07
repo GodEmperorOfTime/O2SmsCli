@@ -1,13 +1,13 @@
 # O2SmsCli
 
-Utilitka pro testovani O2 connectoru.
+Utilitka pro testovani [O2 SMS Connectoru](https://www.o2.cz/podnikatele-a-firmy/volani/sms-connector).
 
 Je to vytahnuty z vetsiho projektu a napraseny v jednom projektu. Potrebuji to kvulit hledani problemu a nechtel jsem prilis slozity solution.
 
 ## O2ConnectorConfig
 
 
-`EndpointUri`: jedna se url endpointu, se ktery jsou odesilany zpravy. Je uvedeno v dokumentaci. Melo byt `https://smsconnector.cz.o2.com/smsconnector/services/PPGwPort`.
+`EndpointUri`: jedna se url endpointu, se ktery jsou odesilany zpravy. Je uvedeno v dokumentaci. Melo by byt `https://smsconnector.cz.o2.com/smsconnector/services/PPGwPort`.
 
 `BaId` znamena Business application ID. Jedna se identifikator odesilatele (prideluje O2).
 
@@ -27,7 +27,7 @@ Je to vytahnuty z vetsiho projektu a napraseny v jednom projektu. Potrebuji to k
 
 ## Config certifikatu
 
-Certifikat musi byt ulozen ve wiondows storu certifikatu. V configu certifikatu musi byt uvedeno o jaku store se jedna a thumbprint prislusneho certifikatu.
+Certifikat musi byt ulozen ve windows storu certifikatu. V configu certifikatu musi byt uvedeno o jaky store se jedna a thumbprint prislusneho certifikatu.
 
 Pr.:
 
@@ -60,3 +60,10 @@ Mozne hodnoty `StoreName` (musi byt uvedeno, case-insensitive):
 | TrustedPeople         | The X.509 certificate store for directly trusted people and resources.      |
 | TrustedPublisher      | The X.509 certificate store for directly trusted publishers.                |
 
+## Certifikat O2 SMS Connectoru
+
+SMS brana komunikuje zkrz HTTPS. O2 ale nepouziva certifikat vystaveny nejakou duveryhdnou certifikacni autoritou (CA). Misto toho provozuji vlastni CA.
+
+Aby komunikace fungovala, je tedy treba pridat jejich CA mezi duveryhodne ve windows storu certifikatu.
+
+Certifikat jejich CA ziskavam tak, ze vlezu na jejicj [endpoint](https://smsconnector.cz.o2.com/smsconnector/services/PPGwPort) normalne z prohlizece, stahnu certifikat pro `CA O2 CZ` a naimportuju ho do `Trusted Root Certification Authorities` ve storu certifikatu.
