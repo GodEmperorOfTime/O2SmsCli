@@ -68,7 +68,10 @@ class ApiConvertor
       baID = _config.BaId,
       msgID = textSms.MessageId.ToString(),
       toNumber = textSms.Recipient.ToString(),
-      validityPeriod = 0,
+      validityPeriod = 0, // Tohle je vychozi hodnota. Asi by teoreticky nemuselo byt explicitne
+                          // nastaveno.
+      multiPart = true, // Smsky s textem delsim nez 160 znaku se poslou na vice casti. Kazda cast je
+                        // uctovana zvlast jako samostatna smska. Maximalni delka je pak 900 znaku.
       text = TextSanitizer.SanitizeText(textSms.Text ?? string.Empty)
     };
     return new MessageContainer()
