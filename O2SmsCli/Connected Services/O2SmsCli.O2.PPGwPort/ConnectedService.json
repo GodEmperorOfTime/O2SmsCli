@@ -11,7 +11,7 @@
     "namespaceMappings": [
       "*, O2SmsCli.O2.PPGwPort"
     ],
-    "targetFramework": "net6.0",
+    "targetFramework": "net8.0",
     "typeReuseMode": "All"
   }
 }
