@@ -6,6 +6,7 @@ class O2ConnectorConfigNode
 
   public string? EndpointUri { get; set; }
   public string? BaId { get; set; }
+  public string? NickName { get; set; }
   public CertificateConfigNode? ClientCertificate { get; set; }
 }
 

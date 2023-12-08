@@ -72,8 +72,12 @@ class ApiConvertor
                           // nastaveno.
       multiPart = true, // Smsky s textem delsim nez 160 znaku se poslou na vice casti. Kazda cast je
                         // uctovana zvlast jako samostatna smska. Maximalni delka je pak 900 znaku.
-      text = TextSanitizer.SanitizeText(textSms.Text ?? string.Empty)
+      text = TextSanitizer.SanitizeText(textSms.Text ?? string.Empty),
     };
+    if (!string.IsNullOrEmpty(_config.NickName))
+    {
+      o2sms.fromNumber = _config.NickName;
+    }
     return new MessageContainer()
     {
       selector = MessageTypeSelector.TextSms,

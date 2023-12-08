@@ -14,6 +14,7 @@ static class O2ConnectorConfigFactory
     return new O2ConnectorConfig(
       EndpointUri: node.EndpointUri.GuardNonEmptyString($"{nameof(O2ConnectorConfigNode.EndpointUri)} musi byt zadan"),
       BaId: node.BaId.GuardNonEmptyString($"{nameof(O2ConnectorConfigNode.BaId)} musi byt zadan"),
+      NickName: string.IsNullOrWhiteSpace(node.NickName) ? null : node.NickName.Trim(),
       ClientCertificate: GetClientCertificateConfig(node));
   }
 
