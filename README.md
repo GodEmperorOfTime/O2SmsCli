@@ -13,10 +13,13 @@ Je to vytahnuty z vetsiho projektu a napraseny v jednom projektu. Potrebuji to k
 
 `ClientCertificate` je certifikat, kterym se autentizuje odesilatel. Vygenerovalo ho O2. Musi byt ulozen ve storu certifikatu i s privatnim klicem. Podrobnejsi popis nastaveni viz samostatna kapitolka.
 
+`NickName`: jmeno, ktere se zobrazi prijemci. Musi byt ze seznamu schvalenym O2. Muze byt nezadano.
+
 ```json
 "O2ConnectorConfig": {
   "EndpointUri": "https://smsconnector.cz.o2.com/smsconnector/services/PPGwPort",
   "BaId": "1992395",
+  "NickName": "Firma.cz",
   "ClientCertificate": {
     "StoreLocation": "CurrentUser",
     "StoreName": "My",
